@@ -7,19 +7,20 @@
 	<title>布八哥消费者关系营销系统</title>
     <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=297024590" type="text/javascript" charset="utf-8"></script>
    </head>
+<?php echo "123"; ?>
    
+<body background="background.jpg">
+  <div  style="height:750px;width:750px" align="center" >
+    <input type="text" value="1232132" />
+    <table width="750px" style="border:1px black" >
+    	
+    </table>
+    
    
-   <body>
-   <?php
-     $str ="马宇翔小马过河";
-	 
-	 echo urlencode($str);
-	 
-	 
-	 ?>
-     <br />
-
-   	%E9%A9%AC%E5%AE%87%E7%BF%94%20%E5%B0%8F%E9%A9%AC%E8%BF%87%E6%B2%B3|123
-   </body>
-   
+    <p><a href="SubmitTable_refined.php"><img src="button1.1.png" onMouseDown="this.src='button1.png'" onMouseUp="this.src='button1.1.png'" onMouseOut="this.src='button1.1.png'" title="我要报名" alt="我要报名" border="0" width="300" height="100" style= "position:absolute; left:54%; top:13%; CURSOR: hand"/></a></p>
+    <p><a href="post.php"><img src="button2.png" onMouseDown="this.src='button2.1.png'" onMouseUp="this.src='button2.png'" onMouseOut="this.src='button2.png'" title="推荐给朋友" alt="推荐给朋友" border="0" width="275" height="100" style= "position:absolute; left:54%; top:23%; CURSOR: hand"/></a></p>
+    
+  
+  </div>
+</body>
  </html>

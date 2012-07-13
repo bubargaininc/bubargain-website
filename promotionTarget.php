@@ -48,14 +48,14 @@
     <table class="tablesorter" >
     	<thead>
         	<th></th>
-        	<th>客户名</th>
-            <th>昵称</th>
-            <th>地址</th>
-            <th>生日</th>
-            <th>性别</th>
-            <th>职业</th>
-            <th>公司</th>
-            <th>个人描述</th>                                       
+        	<th nowrap="nowrap">客户名</th>
+            <th nowrap="nowrap">昵称</th>
+            <th nowrap="nowrap">地址</th>
+            <th nowrap="nowrap">生日</th>
+            <th nowrap="nowrap">性别</th>
+            <th nowrap="nowrap">职业</th>
+            <th  nowrap="nowrap">公司</th>
+            <th nowrap="nowrap">个人描述</th>                                       
         </thead>
         <!-- sample -->
     	 <tr>

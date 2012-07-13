@@ -36,9 +36,9 @@
  <?php include_once ("leftNavi.php"); ?>
 
 <section id="main" class="column">
-    <h4 class=" alert_warning">  现在只是一个测试系统，您看到的全部都是静态数据
+    <h4 class=" alert_warning">  这是一个Demo演示系统，专门用来介绍布八哥消费者关系营销的独特模式，enjoy it!
      </h4>
-	<a href="javascript:" id="wb_connect_btn"></a>
+	<!--  <a href="javascript:" id="wb_connect_btn"></a> -->
     <script>
 			WB2.anyWhere(function(W){
 			W.widget.connectButton({

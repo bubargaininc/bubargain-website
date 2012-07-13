@@ -132,8 +132,8 @@
                 <td>
                 	<a href="#"> 4330</a>
                 </td>
-                <td>
-                	<a href="#"> 策略1</a>
+                <td nowrap="nowrap">
+                	<input type="submit" value="选择营销计划"  />
                 </td>
                 <td>
                 	<label>40% </label>
