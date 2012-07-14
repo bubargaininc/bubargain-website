@@ -13,24 +13,32 @@
 //数据库新建用户  
   
   
-  
+  //数据库新建用户
+    include_once("config.php");
 
-	$con = mysql_connect('localhost','root','root');
-
+	//connect to db
+	try {
+        $conn = new PDO( "mysql:host=$host;dbname=$db", $user, $pwd);
+        $conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+    }
+    catch(Exception $e){
+        die(var_dump($e));
+    }
+	
 	$pass = md5($_POST["Pass"]);
-	if( ! $con )
+	if( ! $conn )
 	{
 		die('注册出现问题，请稍后再试'.mysql_error() );
 	}
 	else
 	{
 		
-		mysql_select_db("bubargain_db",$con);
+		//mysql_select_db("bubargain_db",$conn);
 		
 		$sql = " select loginUserName from loginuser where loginusername ='$_POST[userName]' ";
-		$result = mysql_query($sql,$con);
+		$result = $conn->query($sql);
 		
-		$row = mysql_fetch_array($result);
+		$row = $result->fetch($result);
 		
 		if( $row['loginUserName'] != NULL )
 		{
@@ -43,7 +51,7 @@
 		$querySentence = "Insert into loginuser(loginUserName, loginUserPass, email, company ,title, comments,purpose,userName,regtime) value(
 		'$_POST[userName]', '$pass', '$_POST[email]', '$_POST[company]', '$_POST[title]', '$_POST[comments]', '$_POST[purpose]', '$_POST[name]', '".date("Y/m/d",time())."')";
 		
-		if(!mysql_query($querySentence,$con))
+		if(!$conn->exec($querySentence))
 		{
 			die('Error:'.mysql_error());
 		}
@@ -52,7 +60,7 @@
 			header("Location: wait.php");
 		}
 	}
-	mysql_close($con);
+	
 
 
 //jump to wait page

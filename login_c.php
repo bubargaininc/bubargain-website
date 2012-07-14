@@ -42,52 +42,72 @@
 
 <?php
 //数据库新建用户
-  
+    include_once("config.php");
 
-	$con = mysql_connect('localhost','root','root');
+	//connect to db
+	try {
+        $conn = new PDO( "mysql:host=$host;dbname=$db", $user, $pwd);
+        $conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+    }
+    catch(Exception $e){
+        die(var_dump($e));
+    }
+    
 
-	$pass = md5($_POST[pass]);
-	if( ! $con )
-	{
-		die('注册出现问题，请稍后再试'.mysql_error() );
-	}
-	else
-	{
-		
-		mysql_select_db("bubargain_db",$con);
-		$sql = "select id,userName,loginUserPass,allowed from loginuser where loginUserName='$_POST[userName]' ";
-		$result = mysql_query($sql);
-		
-		try
-		{
-			
-			
-			$row = mysql_fetch_array($result);
-			if( $pass != $row['loginUserPass'])
-			{	
-				echo '密码错误！';
-				exit;
-			}
-			
-			if( $row['allowed'] == 1)
+			$pass = md5($_POST[pass]);
+			if( ! $conn )
 			{
-				$_SESSION['userName'] = $row['userName'];
-				$_SESSION['loginID'] = $row['id'];
-				header("location: index.php");
+				die('注册出现问题，请稍后再试'.mysql_error() );
 			}
 			else
 			{
-				header("location: wait.php");
-			}
-		}
-		catch (Exception $e)
-		{
-			header("location: 404.php");
-			echo $e->message();
-		}
-		
+				
+				//mysql_select_db("bubargain_db",$conn);
+				$sql = "select id,userName,loginUserPass,allowed from loginuser where loginUserName='$_POST[userName]' ";
+				$result = $conn->query($sql);
+				
+				try
+				{
+					
+					
+					$row = $result->fetchAll();
+					if( count($row) > 0 )
+					{
+						foreach( $row as $onerow )
+						{
+							if( $pass != $onerow['loginUserPass'])
+							{	
+								echo '密码错误！';
+								exit;
+							}
+							
+							if( $onerow['allowed'] == 1)
+							{
+								$_SESSION['userName'] = $onerow['userName'];
+								$_SESSION['loginID'] = $onerow['id'];
+								header("location: index.php");
+								break;
+							}
+							else
+							{
+								header("location: wait.php");
+								break;
+							}
+						}
+					}
+					else
+					{	
+						header("location: 404.php");
+					}
+				}
+				catch (Exception $e)
+				{
+					header("location: 404.php");
+					echo $e->message();
+				}
+				
 	}
-	mysql_close($con);
+	
 
 
 //jump to wait page
