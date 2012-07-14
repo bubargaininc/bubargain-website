@@ -1,3 +1,15 @@
+<?php
+   session_start();
+   
+   if(!isset($_SESSION['userName']))
+   {
+	   include_once("login.php");
+	   exit;
+   }
+?>
+
+
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <html xmlns:wb="http://open.weibo.com/wb">
@@ -25,7 +37,7 @@
 ?>
 <section id="secondary_bar">
 		<div class="user">
-			<p>Daniel Ma (<a href="#">3 SMS</a>)</p>
+			<p><?php echo $_SESSION['userName'] ?> (<a href="#">3 SMS</a>)</p>
 			<!-- <a class="logout_user" href="#" title="Logout">Logout</a> -->
 		</div>
 		<div class="breadcrumbs_container">
