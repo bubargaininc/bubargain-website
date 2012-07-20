@@ -1,14 +1,15 @@
 <?php
-header('Content-Type: text/html; charset=UTF-8');
-define( "WB_AKEY" , '297024590' );
-define( "WB_SKEY" , '2c767826c6aa4c8df445278aa707a779' );
+
+define( "WB_AKEY" , '1830868372' );
+define( "WB_SKEY" , '425d41c01a336ab667e4b92fc64812ac' );
 define( "QQ_AKEY", '801188649');
 define("QQ_SKEY", '90a3adc7525c4a694f0fc2481ed0c94b');
-define( "CANVAS_PAGE" , "http://apps.weibo.com/xxxxxxxx" );
+define( "CANVAS_PAGE" , "http://www.uhquan.com/callback.php" );
 $db="bubargaindb";
 $host="us-cdbr-azure-east-a.cloudapp.net";
 $user="bff9443311b51b";
 $pwd="7e24a202";
+
 
 //Database=bubargaindb;Data Source=us-cdbr-azure-east-a.cloudapp.net;User Id=bff9443311b51b;Password=7e24a202
 

@@ -1,5 +1,12 @@
-<?php
+l<?php
   include_once("session.php");
+  
+  //if not get access_token from sina weibo, jump to reAuther.php Page
+  if(empty($_SESSION['token']))
+  {
+  	header("location: reAuther.php");
+  	exit;
+  }
 ?>
 
 
@@ -31,7 +38,7 @@
 ?>
 <section id="secondary_bar">
 		<div class="user">
-			<p><?php echo $_SESSION['userName'] ?> (<a href="#">3 SMS</a>)</p>
+			<p>Welcome,<?php echo $_SESSION['userName'] ?> !</p>
 			<!-- <a class="logout_user" href="#" title="Logout">Logout</a> -->
 		</div>
 		<div class="breadcrumbs_container">

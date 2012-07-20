@@ -9,10 +9,25 @@
 <head>
 	<meta charset="utf-8"/>
 	<title>布八哥消费者关系营销系统</title>
+	<?php 
+	include_once( 'config.php' );
+	//weibo SDK
+	include_once( 'saetv2.ex.class.php' );
 	
+	 if( !isset($_SESSION['token']))
+	 {
+	 	header("location: 'auth.php'");
+	 	
+	 }
+	
+	
+	
+	
+	
+	?>
     <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=297024590" type="text/javascript" charset="utf-8"></script>
 	<!--<script src="ajax.js"></script> -->
-
+   <script src="class/keyWord_autoCheck.js" type="text/javascript" charset="utf-8" ></script>
     <link rel="stylesheet" href="css/layout.css" type="text/css" media="screen" />
 	<!--[if lt IE 9]>
 	<link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" />
@@ -33,7 +48,7 @@
 ?>
 <section id="secondary_bar">
 		<div class="user">
-			<p>Daniel Ma (<a href="#">3 SMS</a>)</p>
+			<p>Welcome,<?php echo $_SESSION['userName'] ?> !</p>
 			<!-- <a class="logout_user" href="#" title="Logout">Logout</a> -->
 		</div>
 		<div class="breadcrumbs_container">
@@ -41,27 +56,43 @@
 		</div>
 	</section><!-- end of secondary bar -->
     
- <?php include_once ("leftNavi.php"); ?>
+ <?php
 
+ include_once ("leftNavi.php");
+
+ 
+ ?>
+
+ 
+ 
 <section id="main" class="column">
 		
-    <article class="module width_3_quarter">
+    <article class="module width_full">
      <header>
-             <form method="get">
+             <form method="post" action="class/keyWord.class.php">
            
-             <input type="text" id="ipsearch" name="q"  value="输入您要搜索的关键词组合" onfocus="if(!this._haschanged){this.value=''};this._haschanged=true;"> 
+             <input type="text" id="ipsearch" name="word"  value="" onfocus="if(!this._haschanged){this.value=''};this._haschanged=true;" /> 
            
              <input type="submit"  value="添加关键词"  />
-             <input type="submit"   value="查询"  />
+             
              </form>
      </header>
+     
+     <script >
+		function reload(id)
+		{
+			
+			window.location.href = "class/keyWord.class.php?del=" + id;
+		}
+     </script>
      
     	<table class="tablesorter">
         	<header>
             	<tr>
                 	<th width="10%">自动评论</th>
                 	<th>关键词</th>
-                    <th>评论内容</th>
+                    <th width="40%">评论内容</th>
+                    <th width="10%">添加/修改</th>
                     <th>统计</th>
                     <th>操作</th>
                 </tr>
@@ -91,7 +122,7 @@
 						}
 						else
 						{
-							$sql = " select * from keyword where merchantID =$merchantID " ;
+							$sql = " select * from view_reply_by_merchantid where merchantID =$merchantID " ;
 							$result = $conn->query($sql);
 							$row = $result->fetchAll();
 							if( count($row) > 0 )
@@ -101,13 +132,15 @@
 									// dynamic add table columns
 									?>
 									<tr>
-                                        <td align="center"><input name="checked" type="checkbox"   <?php if($onerow['autoTrack']) echo ("checked=\"checked\"");?> /></td>
+                                        <td align="center"><input name="checked" type="checkbox"  onchange="changeAutoCheck('<?=$onerow['idkeyWord']?>','<?=$onerow['autoTrack']?>')" <?php if($onerow['autoTrack']) echo ("checked=\"checked\"");?> /></td>
                                     	<td align="center"><a href="?q=<?=$onerow['words']?>"  >
 										<?=$onerow['words'] ?> </a>
                                         </td>
-                                    	<td align="center"><?=$onerow['contentID'] ?></td>
+                                       
+                                    	<td align="center"><?=$onerow['content'] ?></td>
+                                    	<td><input type='submit' onclick="addNewReply('<?=$onerow['idkeyWord']?>')" /></td>
                                         <td align="center"></td>
-                                        <td align="center"><input type="submit" value="delete" name="del<?=$onerow['idkeyWord']?>" /></td>
+                                        <td align="center"><input type="submit"  onclick="reload('<?=$onerow['idkeyWord']?>')" value="delete"  /></td>
                                     </tr> 
                                    
                                     <?php
@@ -132,10 +165,22 @@
                 
             
     <div class="clear"></div>
-    
-    <article class="module width_full">
-		<wb:livestream skin="silver" publish="n" appkey="297024590" id="wbkeyWord" topic="<?=urlencode($_GET["q"])."|".urlencode($_GET["q"])?>" width="auto" height="700" ></wb:livestream>
-	</article>
+    <div>
+    	<?php 
+		if( isset($_GET['q']))
+		{
+	    	$c = new SaeTClientV2( WB_AKEY , WB_SKEY , $_SESSION['token']['access_token'] );
+	    	$ms = $c->search_statuses(urlencode($_GET['q']),'20');
+	    	$uid_get = $c->get_uid();
+	    	$uid = $uid_get['uid'];
+	    	$user_message = $c->show_user_by_id( $uid);//
+	    	print_r($ms);
+		}
+    	?>
+    </div>
+  
+	
+	
 </section>
 
 </body>

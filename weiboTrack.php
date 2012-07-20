@@ -12,6 +12,8 @@
 	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 	<?php include_once ("js/layout.js"); ?>   <!-- include layout code -->
+	<script src="class/keyWord_autoCheck.js" type="text/javascript" charset="utf-8" ></script>
+	
 
 </head>
 
@@ -24,7 +26,7 @@
 ?>
 <section id="secondary_bar">
 		<div class="user">
-			<p>Daniel Ma (<a href="#">3 SMS</a>)</p>
+			<p>Welcome,<?php echo $_SESSION['userName'] ?> !</p>
 			<!-- <a class="logout_user" href="#" title="Logout">Logout</a> -->
 		</div>
 		<div class="breadcrumbs_container">
@@ -42,39 +44,112 @@
 		<article class="module width_full">
 			<header><h3>微博投放管理</h3></header>
 				<div class="module_content">
+					<form action="/class/weiboTrack.class.php" method="post">
 						<fieldset>
 							<label>添加微博地址</label>
-							<input type="text">
-                            <label style=" white-space:nowrap">完整的微博地址链接如：http://weibo.com/2786901240/yrQZAlVBL</label>
+					
+							<input name="newWeiboAdd" type="text">
+                            <label style=" white-space:nowrap">完整的微博地址链接如：http://weibo.com/1248688065/yrXkf71ms</label>
                             <div class="submit_link">
                             	<input type="submit" value="添加" >
                             </div>
 						</fieldset>    
+						</form>
                         <fieldset>
-                        	<table class="tablesorter">
+                        	<table class="tablesorter" id="TBweibo">
                             	<thead>
                                 	<th width="55%">微博内容</th>
-                                    <th>发送时间</th>
+                                    <th align="center">发送时间</th>
                                     <th>发送平台</th>
-                                    <th>转发数量</th>
-                                    <th>评论数量</th>
+                                    <th>转发数</th>
+                                    <th>评论数</th>
+                                    <th>操作</th>
                                 </thead>
                                 
-                             <tr>
-                             	<td ><a href="http://weibo.com/2786901240/yrQZAlVBL"  target="_blank">这是来自@布八哥推荐 的一条微博，暂时你可以忽略它，但是我们以后会经常见面的  </a></td>
-                                <td>2012/07/10 23:33</td>
-                                <td>新浪微博</td>
-                                <td>0</td>
-                                <td>0</td>
-                                
-                             </tr>   
-                              <tr>
-                                <td> <a href="http://e.weibo.com/2374886105/yrQZDmGyl" target="_blank">#启明活动#那些拥有的、失去的、现在的、将来的都一点一点印在我们的脑海里，一天一絮语，一生一爱情！写下你们间的恋人絮语，就有机会参加抽取大奖，还有可能将你们的爱情故事拍成微电影，让我们一起见证你们的爱情！给情人们送上祝福吧，评论转发也可以获大奖哦，IPad等你拿！</a></td>
-                              	<td>2012/07/10 23:30</td>
-                                <td>新浪微博</td>
-                                <td>0</td>
-                                <td>0</td>
-                              </tr>  
+                             
+		               <?php 
+						// get data from db
+						  include_once("config.php");
+						  include_once("/class/queryParticipateNo.class.php");
+						  include_once ("saetv2.ex.class.php");
+
+						//connect to db
+						try {
+							$conn = new PDO( "mysql:host=$host;dbname=$db", $user, $pwd);
+							$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+						}
+						catch(Exception $e){
+							die(var_dump($e));
+						}
+						
+			
+						
+						if( ! $conn )
+						{
+							die('注册出现问题，请稍后再试'.mysql_error() );
+						}
+						else
+						{
+							$sql = "select * from fetchWeibo where merchantID =". $_SESSION['merchantID'] . " Limit 0,100";
+							$result = $conn->query($sql);
+							$row = $result->fetchAll();
+							$queryRes = queryCommentsAndForwardNumber($row);
+						    
+							if( count($row) > 0 )
+							{
+								foreach( $row as $onerow )
+								{
+									// dynamic add table columns
+									?>
+									<tr id="tr<?=$onerow['idfetchWeibo']?>">
+                                        <td align="center"> <a href="http://weibo.com/<?=$onerow['userID']?>/<?=$onerow['weiboID']?>" target="target="new"><?=$onerow['weiboContent']?></a> </td>
+                                    	<td align="center"> <?=$onerow['time']?> </td>
+										
+                                       
+                                    	<td align="center">新浪微博</td>
+                                    	 <?php 
+                                    	 	$tag = '0';
+                                    	 	if($queryRes != false)
+                                    	 	{
+	                                    		for($i=0; $i<count($queryRes); $i++)
+	                                    	 	{
+	                                    	 		if($queryRes[$i]['id'] == $onerow['realWeiboID'])
+	                                    	 		{
+	                                    	 			echo "<td>".$queryRes[$i]['reposts']."</td>"
+															 ."<td>".$queryRes[$i]['comments']."</td>";
+	                                    	 			$tag = '1';
+	                                    	 			break;
+	                                    	 		}
+	                                    	 	
+	                                    	 	}
+                                    	 	}
+                                    	 	if( $tag == '0')
+                                    	 	{
+                                    	 		echo "<td></td><td></td>";
+                                    	 	}
+                                    	 ?>
+                                        <td align="center"><input type="submit"  onclick="deleteLine(<?=$onerow['idfetchWeibo']?>)" value="delete"  /></td>
+                                    </tr> 
+                                   
+                                    <?php
+									
+								}
+							}
+						}
+				
+				
+				?>
+    
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
+                            
                             </table>
                         </fieldset>
                         </div>

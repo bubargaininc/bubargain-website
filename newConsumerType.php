@@ -23,7 +23,7 @@
 ?>
 <section id="secondary_bar">
 		<div class="user">
-			<p>Daniel Ma (<a href="#">3 SMS</a>)</p>
+			<p>Welcome,<?php echo $_SESSION['userName'] ?> !</p>
 			<!-- <a class="logout_user" href="#" title="Logout">Logout</a> -->
 		</div>
 		<div class="breadcrumbs_container">

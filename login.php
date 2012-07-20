@@ -4,11 +4,14 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <html xmlns:wb="http://open.weibo.com/wb">
 
+<?php include_once ("config.php"); ?>
+
+
 <head>
 	<meta charset="utf-8"/>
 	<title>布八哥消费者关系营销系统</title>
 	<meta property="wb:webmaster" content="f9811d176ed0769c" />
-    <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=297024590" type="text/javascript" charset="utf-8"></script>
+    <script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=1830868372" type="text/javascript" charset="utf-8"></script>
 	<link rel="stylesheet" href="css/layout.css" type="text/css" media="screen" />
 	<!--[if lt IE 9]>
 	<link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" />
@@ -17,6 +20,9 @@
 	<?php include_once ("js/layout.js"); ?>   <!-- include layout code -->
 
 </head>
+<script src="http://tjs.sjs.sinajs.cn/t35/apps/opent/js/frames/client.js" language="JavaScript"></script>
+
+
 
 <body>
 <?php
@@ -27,7 +33,7 @@
 ?>
 <section id="secondary_bar">
 		<div class="user">
-			
+		
 			<!-- <a class="logout_user" href="#" title="Logout">Logout</a> -->
 		</div>
 		<div class="breadcrumbs_container">
@@ -51,7 +57,7 @@
 		}
 	 </script>
      
-     <article class="module  width_quarter">
+     <article class="module   width_quarter">
 			<header><h3>请从这里登陆</h3></header>
             <form method="post" action="login_c.php">
 				<div class="module_content">
@@ -73,6 +79,22 @@
                   </footer>
                   </form>
                   </article>
+       <script>
+				   WB2.anyWhere(function(W){
+					   	
+				W.widget.connectButton({
+					id: "wb_connect_btn",	
+					type:"3,2",
+					callback : {
+						login:function(o){	//登录后的回调函数
+						},	
+						logout:function(){	//退出后的回调函数
+						}
+					}
+				});
+			});
+	   </script>
+      
      
      </section>
      

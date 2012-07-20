@@ -46,8 +46,9 @@
 
 	//connect to db
 	try {
+ 		
         $conn = new PDO( "mysql:host=$host;dbname=$db", $user, $pwd);
-        $conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+		$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
     }
     catch(Exception $e){
         die(var_dump($e));
@@ -63,7 +64,7 @@
 			{
 				
 				//mysql_select_db("bubargain_db",$conn);
-				$sql = "select id,userName,loginUserPass,allowed from loginuser where loginUserName='$_POST[userName]' ";
+				$sql = "select id,userName,loginUserPass,allowed,merchantID from loginuser where loginUserName='$_POST[userName]' ";
 				$result = $conn->query($sql);
 				
 				try
@@ -84,6 +85,7 @@
 							if( $onerow['allowed'] == 1)
 							{
 								$_SESSION['userName'] = $onerow['userName'];
+								$_SESSION['merchantID'] = $onerow['merchantID'];
 								$_SESSION['loginID'] = $onerow['id'];
 								header("location: index.php");
 								break;

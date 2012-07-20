@@ -31,7 +31,7 @@
 		<ul class="toggle">
 			<li class="icn_settings"><a href="Marketing.php">营销计划</a></li>
 			
-			<li class="icn_jump_back"><a href="#">自动投放</a></li>
+			
             <!-- <li class=" icn_categories"><a href="#">统计分析</a></li> -->
 		</ul>
 		

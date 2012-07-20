@@ -317,7 +317,7 @@ class SaeTOAuthV2 {
 	 */
 	function oAuthRequest($url, $method, $parameters, $multi = false) {
 
-		if (strrpos($url, 'https://') !== 0 && strrpos($url, 'https://') !== 0) {
+		if (strrpos($url, 'http://') !== 0 && strrpos($url, 'https://') !== 0) {
 			$url = "{$this->host}{$url}.{$this->format}";
 	}
 
@@ -2221,7 +2221,7 @@ class SaeTClientV2
 	{
 		$params = array();
 		if (is_array($uids) && !empty($uids)) {
-			foreach($dids as $k => $v) {
+			foreach($uids as $k => $v) {
 				$this->id_format($uids[$k]);
 			}
 			$params['uids'] = join(',', $uids);
