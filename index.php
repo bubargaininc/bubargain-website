@@ -1,12 +1,12 @@
 <?php
-  //include_once("session.php");
+  include_once("session.php");
   
   //if not get access_token from sina weibo, jump to reAuther.php Page
-  /*if(empty($_SESSION['token']))
+  if(empty($_SESSION['token']))
   {
   	header("location: reAuther.php");
   	exit;
-  }*/
+  }
   
 ?>
 
