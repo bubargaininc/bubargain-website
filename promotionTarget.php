@@ -41,52 +41,138 @@
       
      </h4>
     
+ <?php
+			include_once("config.php");
+  			include_once("saetv2.ex.class.php");
+  		
+		try {
+	 		
+	        $conn = new PDO( "mysql:host=$host;dbname=$db", $user, $pwd ,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8';"));
+			$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+			
+	    }
+	    catch(Exception $e){
+	        die(var_dump($e));
+   		 }
+   		 
+   		 if( ! $conn )
+   		 {
+   		 	die('连接服务器出现问题，请稍后再试'.mysql_error() );
+   		 }
+   		 
+   		 //count row number
+   		 $sql = "select count(*)  from experience where merchantID = ".$_SESSION['merchantID']
+   		 		." and experience > 100 " ;
+   		 $stmt = $conn ->query($sql);
+   		 $res = $stmt ->fetch();
+   		 $amount = $res[0];
+   		 
+   		 
+   		 $page_now = '0';
+		 if( isset($_REQUEST['page']))
+		 {
+			$page_now = $_REQUEST['page'];
+		 }
+	?>
+    
     
     <article class="module width_3_quarter">
-    <header><h3 class="tabs_involved">首次消费促销目标
-    </h3>
+    <header>
+      <h3 class="tabs_involved">首次消费目标人群 &nbsp;&nbsp; <span style="color:#336" >总数：<?=$amount ?></span>
+    </h3> 
     </header>
-    <table class="tablesorter" >
-    	<thead>
-        	<th></th>
-        	<th nowrap="nowrap">客户名</th>
-            <th nowrap="nowrap">昵称</th>
-            <th nowrap="nowrap">地址</th>
-            <th nowrap="nowrap">生日</th>
-            <th nowrap="nowrap">性别</th>
-            <th nowrap="nowrap">职业</th>
-            <th  nowrap="nowrap">公司</th>
-            <th nowrap="nowrap">个人描述</th>                                       
-        </thead>
-        <!-- sample -->
-    	 <tr>
-         	<td> <input type="checkbox" /></td>
-            <td> <a href="http://weibo.com/mayx">布八哥马宇翔</a> </td>
-            <td> </td>
-            <td> 北京市，海淀区</td>
-            <td> 1985/04/30</td>
-            <td> 男</td>
-            <td> CEO</td>
-            <td> 布八哥消费者精准营销有限公司</td>
-            <td> 创业就是一步步坚持走下去！</td>
-         </tr>
-    </table>
-    <div class=" module_content">
-    	<h3>备注：</h3>
-        <p> 根据中华人民共和国个人隐私管理的相关条例，我们无权公开消费者个人私密数据</p>
-        <p> 我们仅利用这些数据作为接触消费者的渠道</p>
-    </div>
     
-                <div class="submit_link">
+    <table class="tablesorter" cellspacing="0" >
+    <thead>
+       <!--
+        <tr>
+    	<th colspan="4" align="center" style="border-right:1px solid grey">基本信息</th>
+    	<th colspan="6" align="center">数量统计</th>
+    	</tr>
+       --> 
+        <tr >
+	        <th></th>
+	        <th >客户名</th> 
+	        <th >地区</th>
+	        <th >性别</th>  
+	        
+	    	<th >最近参与</th>
+	             <th ></th>
+        </tr>
+    </thead>
+    
+  <?php 
+  	
+   		 
+   		 $sql = "select * from experience where merchantID = ".$_SESSION['merchantID']
+   		 		." and experience > 100 order by experience DESC limit ".$page_now *20 .", 20 ";
+		 $stmt = $conn -> query ($sql);
+		 $res = $stmt ->fetchAll();
+		 
+		 // get user Info by uid List
+		  include_once ("class/class.spiderOpera.php");
+		  
+		  	$conn2 = new PDO( "mysql:host=$host;dbname=$db_spider", $user, $pwd ,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8';"));
+			$conn2->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+		 	$spo = new spiderOpera ($conn2);
+		 	
+			
+		 //dynamic draw table
+		 
+		 
+		 foreach ( $res as $onerow)
+		 {
+		 	$userInfo = $spo -> searchUserInfo ($onerow['uid']); 
+		 	if($userInfo != null)
+		 	{
+		 //	print_r($userInfo); echo "<br />";
+		 	?>
+		 	<tr>
+		 		<td><input name="SelectUser" type="checkbox" value="<?=$userInfo['uid']?>" /></td>
+		 		<td><a href="http://weibo.com/u/<?=$userInfo['uid']?>" target="new" ><?=$userInfo['nick_name']?></a></td>
+		 		<td><?=$userInfo['province']?>  <?=$userInfo['city']?></td>
+		 		<td><?=$userInfo['gender']?></td>
+		 		
+		 		<td></td>
+		 		<td></td>
+		 	</tr>
+		 	<?php 
+		 	}
+		 }
+		 	
+		 
+  		
+  		
+  ?>
+     
+        </tr>  
+        <td colspan="6"  nowrap="nowrap">
+        <span>
+     
+         <?php 
+		     if( $page_now != '0')
+			 {
+			 	$value = $page_now -1;
+				 echo "<a style='width:10%' href='developingSpace.php?page=".$value."' ><h4>上一页</h4></a> ";
+             }
+             if ( $page_now * 20 < $amount && $amount > 20)
+             {
+             	$value = $page_now + 1;
+             	echo "<a style='width:10%' href='developingSpace.php?page=".$value."' ><h4>下一页</h4></a> ";
+             }
+			 ?>
+             </span>
+			 </td>
+        </tr>  
+        
+    </table>
+    
+     <div class="submit_link">
 					
-					<input type="submit" value="促销精准投放" class="alt_btn"> 
+					<input type="submit" value="营销定向投放" class="alt_btn"> 
 					
 				</div>
-   
-   </article>
-   
-   </section>
-   
-   </body>
-   
-   </html>
+    </section>
+    
+    </body>
+    </html>

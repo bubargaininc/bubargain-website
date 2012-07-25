@@ -1,6 +1,7 @@
 
 <?php
    include_once("session.php");
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -8,7 +9,7 @@
 <head>
 	<meta charset="utf-8"/>
 	<title>布八哥消费者关系营销系统</title>
-	
+	<script src="http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=297024590" type="text/javascript" charset="utf-8"></script>
 	<link rel="stylesheet" href="css/layout.css" type="text/css" media="screen" />
 	<!--[if lt IE 9]>
 	<link rel="stylesheet" href="css/ie.css" type="text/css" media="screen" />
@@ -40,189 +41,146 @@
 <section id="main" class="column">
     <h4 class="alert_info"> 恭喜您！您已经与如下消费者建立了初步联系，让我们继续努力，增强企业的品牌认知度吧！
       <br /> &nbsp; &nbsp;&nbsp; ※消费者的经验值范围从1-100，满分则进入“促销目标”库
-      <br /> &nbsp; &nbsp;&nbsp; ※计分规则：被动接收一条讯息，经验+2； 消费者转发，评论了您的讯息，经验+5 ~ 100（取决于内容）；
-      <br />  &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; 进入APP应用，经验+10； 参与线上活动，经验+20； 其他待补充；
-      <br  />&nbsp; &nbsp;&nbsp; ※请合理分配发送渠道和发送频率，避免用户投诉
+      <br /> &nbsp; &nbsp;&nbsp; ※计分规则：被动接收一条讯息，经验+2； 消费者转发，评论了您的讯息，经验+5 ~ 20；
+      <br />  &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; 进入APP应用，经验+10； 参与线上活动，经验+20...
+      <br  />&nbsp; &nbsp;&nbsp; ※请勿给用户重复发送信息
+      <br /> &nbsp; &nbsp;&nbsp; ※为了避免发送频率过于频繁，我们会将发送内容存储到缓存区中，然后再逐个发送。如果您需要即使会话，请点击用户名称直接跳转到其微博页面
     </h4>
+    
+    <?php
+			include_once("config.php");
+  		include_once("saetv2.ex.class.php");
+  		
+		try {
+	 		
+	        $conn = new PDO( "mysql:host=$host;dbname=$db", $user, $pwd ,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8';"));
+			$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+			
+	    }
+	    catch(Exception $e){
+	        die(var_dump($e));
+   		 }
+   		 
+   		 if( ! $conn )
+   		 {
+   		 	die('连接服务器出现问题，请稍后再试'.mysql_error() );
+   		 }
+   		 
+   		 //count row number
+   		 $sql = "select count(*)from experience where merchantID = ".$_SESSION['merchantID']
+   		 		." and experience < 100 " ;
+   		 $stmt = $conn ->query($sql);
+   		 $res = $stmt ->fetch();
+   		 $amount = $res[0];
+   		 
+   		 
+   		 $page_now = '0';
+		 if( isset($_REQUEST['page']))
+		 {
+			$page_now = $_REQUEST['page'];
+		 }
+	?>
     
     
     <article class="module width_3_quarter">
-    <header><h3 class="tabs_involved">进化空间
-    </h3>
+    <header>
+      <h3 class="tabs_involved">进化空间 &nbsp;&nbsp; <span style="color:#336" >总数：<?=$amount ?></span>
+    </h3> 
     </header>
     
     <table class="tablesorter" cellspacing="0" >
     <thead>
+       <!--
         <tr>
     	<th colspan="4" align="center" style="border-right:1px solid grey">基本信息</th>
     	<th colspan="6" align="center">数量统计</th>
     	</tr>
-        
+       --> 
         <tr >
-        <th ></th>
-        <th >客户名</th>
-        <th >所属分类</th>
-    	<th y>经验值</th>
-            <th>讯息</th>
-            <th>电邮</th>
-            <th>转发</th>
-            <th>评论</th>
-            <th>活动</th>
-            <th>其他</th>
+	       
+	        <th >客户名</th> 
+	        <th >地区</th>
+	        <th >性别</th>  
+	        <th> 经验</th>
+	    	<th >最近参与</th>
+	             <th ></th>
         </tr>
     </thead>
     
-    <!-- sample row -->
-    
-    	<tr>
-       		 <td>
-        	   <input name="checked" type="checkbox" value="" />
-        	</td>
-   			<td>
-            	<a href="http://weibo.com/mayx" target="new">布八哥马宇翔</a>
-            </td>
-            <td>
-            	海淀白领
-            </td>
-            <td>
-            	50
-            </td>
-            <td>
-            	<a href="#">5</a>
-            </td>
-            <td>
-            	5
-            </td>
-             <td>
-             	<a href="#">1</a>
-            </td>
-             <td>
-             	<a href="#">2</a>
-            </td>
-             <td>
-             	0
-            </td>
-             <td>
-             	0
-            </td>
-           
-        </tr>
-    
-    <!-- sample row2 -->
-    	
- 	    <tr>
-       		 <td>
-        	   <input name="checked" type="checkbox" value="" />
-        	</td>
-   			<td>
-            	<a href="http://weibo.com/U/1498466074" target="new">伟忠启明</a>
-            </td>
-            <td>
-            	海淀白领
-            </td>
-            <td>
-            	40
-            </td>
-            <td>
-            	<a href="#">5</a>
-            </td>
-            <td>
-            	0
-            </td>
-             <td>
-             	<a href="#">2</a>
-            </td>
-             <td>
-             	<a href="#">0</a>
-            </td>
-             <td>
-             	1
-            </td>
-             <td>
-             	0
-            </td>
-           
-        </tr>
-   
-   <!-- sample row3 -->
-        <tr>
-       		 <td>
-        	   <input name="checked" type="checkbox" value="" />
-        	</td>
-   			<td>
-            	<a href="http://weibo.com/iamwangdan" target="new">围着围脖的王丹</a>
-            </td>
-            <td>
-            	高富帅
-            </td>
-            <td>
-            	40
-            </td>
-            <td>
-            	<a href="#">4</a>
-            </td>
-            <td>
-            	1
-            </td>
-             <td>
-             	<a href="#">1</a>
-            </td>
-             <td>
-             	<a href="#">1</a>
-            </td>
-             <td>
-             	1
-            </td>
-             <td>
-             	0
-            </td>
-           
-        </tr>
+  <?php 
+  	
+   		 
+   		 $sql = "select * from experience where merchantID = ".$_SESSION['merchantID']
+   		 		." and experience < 100 order by experience DESC limit ".$page_now *20 .", 20 ";
+		 $stmt = $conn -> query ($sql);
+		 $res = $stmt ->fetchAll();
+		 
+		 // get user Info by uid List
+		    include_once ("class/class.spiderOpera.php");
+		  
+		  	$conn2 = new PDO( "mysql:host=$host;dbname=$db_spider", $user, $pwd ,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8';"));
+			$conn2->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+		 	$spo = new spiderOpera ($conn2);
+		 	
+			
+		 //dynamic draw table
+		 
+		 
+		 foreach ( $res as $onerow)
+		 {
+		 	$userInfo = $spo -> searchUserInfo ($onerow['uid']); 
+		 	if($userInfo != null)
+		 	{
+		 //	print_r($userInfo); echo "<br />";
+		 	?>
+		 	<tr>
+		 		
+		 		<td><a href="http://weibo.com/u/<?=$userInfo['uid']?>" target="new" ><?=$userInfo['nick_name']?></a></td>
+		 		<td><?=$userInfo['province']?>  <?=$userInfo['city']?></td>
+		 		<td><?=$userInfo['gender']?></td>
+		 		<td><?=$onerow['experience']?></td>
+		 		<td></td>
+		 		<td><input type='submit' id="submit<?=$userInfo['uid']?>" value="一键发送" /></td>
+		 	</tr>
+		 	<?php 
+		 	}
+		 }
+		 	
+		 
+  		
+  		
+  ?>
+     
+        </tr>  
+        <td colspan="6"    nowrap="nowrap">
         
-       
-    
-      <!-- sample row3 -->
-        <tr>
-       		 <td>
-        	   <input name="checked" type="checkbox" value="" />
-        	</td>
-   			<td>
-            	<a href=" http://weibo.com/111850305" target="new">委鬼山争</a>
-            </td>
-            <td>
-            	高富帅
-            </td>
-            <td>
-            	30
-            </td>
-            <td>
-            	<a href="#">4</a>
-            </td>
-            <td>
-            	1
-            </td>
-             <td>
-             	<a href="#">1</a>
-            </td>
-             <td>
-             	<a href="#">0</a>
-            </td>
-             <td>
-             	1
-            </td>
-             <td>
-             	0
-            </td>
-           
-        </tr>    
+     
+         <?php 
+		     if( $page_now != '0')
+			 {
+			 	$value = $page_now -1;
+				 echo "<a style='width:30px' href='developingSpace.php?page=".$value."' ><h4>上一页</h4></a> ";
+             }
+             if ( $page_now *20 < $amount & $amount > 20)
+             {
+             	$value = $page_now + 1;
+             	echo "<a style='width:30px' href='developingSpace.php?page=".$value."' ><h4>下一页</h4></a> ";
+             }
+			 ?>
+             
+			 </td>
+        </tr>  
         
     </table>
     
+    <!--  
      <div class="submit_link">
 					
 					<input type="submit" value="营销定向投放" class="alt_btn"> 
 					
 				</div>
+				-->
+	<div class="clear"></div>
     </section>
     
     </body>

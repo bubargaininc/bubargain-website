@@ -13,11 +13,18 @@
 	<![endif]-->
 	<?php include_once ("js/layout.js"); ?>   <!-- include layout code -->
 	<script src="class/keyWord_autoCheck.js" type="text/javascript" charset="utf-8" ></script>
-	
+	<?php
+	 if( !isset($_SESSION['token']))
+	 {
+	 	header("location: reAuther.php");
+	 	
+	 }
+	 ?>
 
 </head>
 
 <body>
+
 <?php
    
 	//include top and left bar of this page   
@@ -75,7 +82,7 @@
 
 						//connect to db
 						try {
-							$conn = new PDO( "mysql:host=$host;dbname=$db", $user, $pwd);
+							$conn = new PDO( "mysql:host=$host;dbname=$db", $user, $pwd ,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8';"));
 							$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 						}
 						catch(Exception $e){
@@ -90,7 +97,7 @@
 						}
 						else
 						{
-							$sql = "select * from fetchWeibo where merchantID =". $_SESSION['merchantID'] . " Limit 0,100";
+							$sql = "select * from fetchweibo where merchantID =". $_SESSION['merchantID'] . " Limit 0,100";
 							$result = $conn->query($sql);
 							$row = $result->fetchAll();
 							$queryRes = queryCommentsAndForwardNumber($row);
@@ -156,7 +163,7 @@
                         </article>
                         
     </section>
-    
+   
     </body>
     
     </html>

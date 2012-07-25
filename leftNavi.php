@@ -13,20 +13,21 @@
 			<li class="icn_categories"><a href="developingSpace.php">进化空间</a></li>
 			<li class="icn_tags"><a href="promotionTarget.php">促销目标</a></li>
 		</ul>
-		<h3>消费者关系管理</h3>
+		
+		<h3>消费者管理</h3>
 		<ul class="toggle">
-			
-			<li class="icn_view_users"><a href="consumerList.php">客户列表</a></li>
-			
-            <li class="icn_folder"><a href="strategy.php">管理策略</a></li>
-             
+			<li class="icn_profile"><a href="sns.php">客户管理</a></li>
+		
 		</ul>
+		
+		
 		<h3>社交管理</h3>
 		<ul class="toggle">
 			<li class="icn_profile"><a href="sns.php">社交网络</a></li>
 			<li class=" icn_edit_article"><a href="keyWord.php">商机舆情</a></li>
 			<li class="icn_video"><a href="weiboTrack.php">微博跟踪</a></li>
 		</ul>
+		
 		<h3>营销拓展</h3>
 		<ul class="toggle">
 			<li class="icn_settings"><a href="Marketing.php">营销计划</a></li>

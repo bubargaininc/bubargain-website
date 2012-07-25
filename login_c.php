@@ -1,4 +1,6 @@
-<?php session_start(); ?>
+<?php session_start();
+ header("Content-Type:text/html;charset=utf-8");
+?>
 
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -47,7 +49,7 @@
 	//connect to db
 	try {
  		
-        $conn = new PDO( "mysql:host=$host;dbname=$db", $user, $pwd);
+        $conn = new PDO( "mysql:host=$host;dbname=$db", $user, $pwd ,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8';"));
 		$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
     }
     catch(Exception $e){
@@ -58,13 +60,14 @@
 			$pass = md5($_POST[pass]);
 			if( ! $conn )
 			{
-				die('注册出现问题，请稍后再试'.mysql_error() );
+				die('登陆出现问题，请稍后再试'.mysql_error() );
 			}
 			else
 			{
 				
 				//mysql_select_db("bubargain_db",$conn);
 				$sql = "select id,userName,loginUserPass,allowed,merchantID from loginuser where loginUserName='$_POST[userName]' ";
+				$conn->query("set names utf8");
 				$result = $conn->query($sql);
 				
 				try
@@ -78,10 +81,10 @@
 						{
 							if( $pass != $onerow['loginUserPass'])
 							{	
-								echo '密码错误！';
+								echo '用户名密码错误！';
 								exit;
 							}
-							
+						
 							if( $onerow['allowed'] == 1)
 							{
 								$_SESSION['userName'] = $onerow['userName'];

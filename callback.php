@@ -22,7 +22,7 @@
 		
 		if ($token) {
 			$_SESSION['token'] = $token;
-			//print_r( $token);
+			
 			echo "<script>window.location =\"index.php\";</script>";
 			
 		}

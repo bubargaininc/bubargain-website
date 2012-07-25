@@ -91,9 +91,9 @@ background-position: 0 -27px;
 /* Secondary Header Bar */
 
 section#secondary_bar {
-height: 38px;
-width: 100%;
-background: #F1F1F4 url(../images/secondary_bar.png) repeat-x;
+	height: 38px;
+	width: 100%;
+	background: #F1F1F4 url(../images/secondary_bar.png) repeat-x;
 }
 
 section#secondary_bar .user {
@@ -441,6 +441,11 @@ margin-right: 0;
 float: left;
 }
 
+.width_quarter_2 {
+width: 26%;
+margin-right: 30px;
+}
+
 .width_3_quarter {
 width: 66%;
 margin-right: 0;
@@ -455,13 +460,20 @@ float: left;
 }
 
 .stats_overview {
-background: #F6F6F6;
-border: 1px solid #ccc;
-float: right;
-width: 26%;
--webkit-border-radius: 5px;
--moz-border-radius: 5px;
-border-radius: 5px;
+	background: #F6F6F6;
+	border: 1px solid #ccc;
+	width: 26%;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+
+.stats_overview2 {
+	background: #F6F6F6;
+	border: 1px solid #ccc;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
 }
 
 .overview_today, .overview_previous {
@@ -697,9 +709,9 @@ float: left;
 }
 
 .message_list {
-height: 250px;
-overflow-x:hidden;
-overflow-y: scroll;
+	height: 600px;
+	overflow-x: hidden;
+	overflow-y: scroll;
 }
 
 /* New/Edit Article Module */

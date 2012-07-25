@@ -61,17 +61,17 @@
 			   		$merchantID = $_SESSION['merchantID'];
 			   		$weiboContent = $weiboInfo['text'];
 			   		$time = $weiboInfo['created_at'];
-			   		$conn = new PDO( "mysql:host=$host;dbname=$db", $user, $pwd);
+			   		$conn = new PDO( "mysql:host=$host;dbname=$db", $user, $pwd ,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8';"));
 			   		$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 			   		if( ! $conn )
 			   		{
-			   			die('Êý¾Ý¿âÁ´½Ó³öÏÖÎÊÌâ£¬ÇëÉÔºóÔÙÊÔ£º'.mysql_error() );
+			   			die('ï¿½ï¿½Ý¿ï¿½ï¿½ï¿½ï¿½Ó³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½â£¬ï¿½ï¿½ï¿½Ôºï¿½ï¿½ï¿½ï¿½Ô£ï¿½'.mysql_error() );
 			   		}
 			   		else
 			   		{
 			 			//check repeat 
 			 			
-			   			$sql = "select idfetchWeibo from fetchWeibo where merchantID = ? and weiboID = ?";
+			   			$sql = "select idfetchWeibo from fetchweibo where merchantID = ? and weiboID = ?";
 			   			$stmti = $conn-> prepare ($sql);
 			   			$stmti->bindValue (1, $merchantID);
 			   			$stmti->bindValue (2, $weiboId);
@@ -85,7 +85,7 @@
 			   			{
 			   				
 				   			//insert into database
-				   			$sql = "Insert into fetchWeibo(weiboID,realWeiboID,userID,merchantID,weiboContent,time) value (?,?,?,?,?,?)";
+				   			$sql = "Insert into fetchweibo(weiboID,realWeiboID,userID,merchantID,weiboContent,time) value (?,?,?,?,?,?)";
 				   			$stmt = $conn->prepare($sql);
 				   			$stmt->bindValue (1,$weiboId);
 				   			$stmt->bindValue (2,$realWeiboId['id']);
@@ -100,7 +100,7 @@
 			   			else
 			   			{
 			   				
-			   				echo "<script>alert('¸ÃÎ¢²©ÒÑ¾­´æÔÚ£¡Ð»Ð»');location.href='../weiboTrack.php'; </script>";
+			   				echo "<script>alert('ï¿½ï¿½Î¢ï¿½ï¿½ï¿½Ñ¾ï¿½ï¿½ï¿½ï¿½Ú£ï¿½Ð»Ð»');location.href='../weiboTrack.php'; </script>";
 			   			}
 					}
 	   		} catch (Exception $e) {
@@ -116,10 +116,10 @@
    	global $host,$db,$user,$pwd ;
    	 try
    	 {
-   	     $conn = 	new PDO ("mysql:host=$host;dbname=$db",$user,$pwd);
+   	     $conn = new PDO( "mysql:host=$host;dbname=$db", $user, $pwd ,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8';"));
    	     $conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
    	     
-   	     $sql = "delete from fetchWeibo where idfetchWeibo =".$id ;
+   	     $sql = "delete from fetchweibo where idfetchWeibo =".$id ;
    	     $res = $conn->exec($sql);
    	    
    	     echo 'tr'.$id;

@@ -16,7 +16,7 @@
 	
 	 if( !isset($_SESSION['token']))
 	 {
-	 	header("location: 'auth.php'");
+	 	header("location: reAuther.php");
 	 	
 	 }
 	
@@ -66,6 +66,11 @@
  
  
 <section id="main" class="column">
+	<h4 class="alert_info"> 添加您希望关注的关键词，系统会自动收录相关的信息，并将目标用户添加到<strong style="color:red">“进化空间”</strong>
+    </h4>
+
+
+
 		
     <article class="module width_full">
      <header>
@@ -107,7 +112,7 @@
 
 				//connect to db
 				try {
-					$conn = new PDO( "mysql:host=$host;dbname=$db", $user, $pwd);
+					$conn = new PDO( "mysql:host=$host;dbname=$db", $user, $pwd ,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8';"));
 					$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 				}
 				catch(Exception $e){

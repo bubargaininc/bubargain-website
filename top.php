@@ -1,4 +1,4 @@
-
+<?php  header("Content-Type:text/html;charset=utf-8"); ?>
     <header id="header" >
 		<hgroup >
 			<h1 class="site_title" align="center"><a href="index.php"><img src="./images/bubargain_logo.png"/></a></h1>

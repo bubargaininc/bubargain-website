@@ -1,0 +1,95 @@
+.setupTag_box {
+overflow: hidden;
+margin-top: 10px;
+height: 160px;
+background: #EDFAFF;
+-moz-border-radius: 3px 3px 0 0;
+-webkit-border-radius: 3px 3px 0 0;
+border-color: #D7F5FF;
+border-right: 1px solid #D7F5FF;
+border-style: none solid solid;
+border-width: 0 1px 1px;
+}
+.setupTag_boxL {
+float: left;
+padding-top: 60px;
+width: 360px;
+padding-left: 24px;
+}
+.setupTag_boxR {
+-moz-border-radius: 3px;
+background: none repeat scroll 0 0 white;
+display: inline;
+float: right;
+height: 110px;
+margin: 10px 10px 0 0;
+padding: 15px 20px;
+width: 290px;
+}
+.setupTag_input {
+clear: both;
+}
+.setupTag_input .setupTag_txt {
+width: 250px;
+height: 24px;
+line-height: 24px;
+margin-right: 5px;
+color: #CCC;
+border: 1px solid #DDD;
+padding: 2px 0 0 2px;
+}
+a.btn_normal:link, a.btn_normal:visited, a.btn_normal:hover, a.btn_hv:link, a.btn_hv:visited, a.btn_hv:hover, a.btn_notclick:link, a.btn_notclick:visited, a.btn_notclick:hover, a.btn_privacy:link, a.btn_privacy:visited, a.btn_privacy:hover {
+text-decoration: none;
+}
+.setupTag_list02 {
+	clear: both;
+	border: 1px solid #D7F5FF;
+	border-top: 0;
+	height: 60px;
+	overflow: hidden;
+	padding: 15px 20px;
+	background-color: #EDFAFF;
+}
+.setupTag_list02 .tagList {
+	width: 100%;
+	overflow: visible;
+}
+.tagList li *, .setupTag_list01 a {
+font-family: "SimSun" 9;
+}
+.setupTag_list02 .tagList li {
+overflow: visible;
+}
+.tagList li {
+font-size: 14px;
+padding-top: 1px;
+}
+.setupTag_list02 li {
+margin-bottom: 7px;
+}
+.tagList li, .setupTag_list02 li {
+margin-right: 5px;
+}
+.tagList li, .setupTag_list02 li {
+margin-right: 5px;
+}
+.tagList li {
+background: white;
+border: 1px solid #B2D9F0;
+}
+.tagList li {
+float: left;
+margin: 2px 5px 2px 0;
+background: white;
+border: 1px solid #B7D7F0;
+height: 20px;
+line-height: 20px;
+white-space: nowrap;
+}
+li {
+list-style: none;
+}
+body, h1, h2, h3, h4, h5, h6, dl, dt, dd, ul, ol, li, th, td, p, blockquote, pre, form, fieldset, legend, input, button, textarea, hr {
+margin: 0;
+padding: 0;
+}

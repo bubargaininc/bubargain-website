@@ -5,11 +5,22 @@ define( "WB_SKEY" , '425d41c01a336ab667e4b92fc64812ac' );
 define( "QQ_AKEY", '801188649');
 define("QQ_SKEY", '90a3adc7525c4a694f0fc2481ed0c94b');
 define( "CANVAS_PAGE" , "http://www.uhquan.com/callback.php" );
+define("WEIBO_URL",'https://api.weibo.com/2/comments/show.json');
+
+$db =    "bubargaindb";
+$db_spider = "spider";
+$host =  "www.uhquan.com";
+$user =  "bubargain";
+$pwd =   "bubargain2012";
+
+
+/*
+ * database access to Miscrosoft Azure
 $db="bubargaindb";
 $host="us-cdbr-azure-east-a.cloudapp.net";
 $user="bff9443311b51b";
 $pwd="7e24a202";
-
+*/
 
 //Database=bubargaindb;Data Source=us-cdbr-azure-east-a.cloudapp.net;User Id=bff9443311b51b;Password=7e24a202
 

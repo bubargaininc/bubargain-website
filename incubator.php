@@ -54,9 +54,9 @@
 
 <section id="main" class="column">
     <h4 class="alert_info">新客户孵化器中的客户是由布八哥系统帮助您定位到的潜在客户，请珍惜潜在的商机，针对消费者群的偏好订制营销信息。
-      经验建议： <br /> &nbsp; &nbsp;&nbsp; ※不要在首次接触时就推送广告性很强的信息
-      <br /> &nbsp; &nbsp;&nbsp; ※如用户未形成互动，再次发送的周期建议在30天以上
-      <br /> &nbsp; &nbsp;&nbsp; ※如用户对您投诉，我们会相应降低您的发送权限，以致封号！<br />请铭记“<strong style="color:red">精准营销，在质不在量，请用心为您的消费者订制营销方案！</strong>”
+      <br /> &nbsp; &nbsp;&nbsp; 
+      <br /> &nbsp; &nbsp;&nbsp; ※为防止骚扰用户，如用户未形成互动，你将在一个月后才能与其再次互动
+      <br /> &nbsp; &nbsp;&nbsp; ※为遵守微博规则，“用户一次点击仅可触发一条微博"！<br /><br />“<strong style="color:red">精准营销，重质不重量，请用心为您的消费者订制营销方案！</strong>”
     </h4>
     
      <script>
@@ -85,72 +85,157 @@
     <table class="tablesorter" cellspacing="0">
     	<thead>
             <tr>
-                <th></th>
-    	    	<th>客户群</th>
-                <th>总数量</th>
-                <th>已发送数量</th>
                 
-                <th>营销策略</th>
+    	    	<th>客户群</th>
+                
+                <th>已接触</th>
+                
+                <th width="40%">营销策略</th>
                 <th>客户响应率</th>
                 <th width="100px">营销状态</th>
             </tr>
         </thead>
+        
+        
+        
+        <!-- Dynamic draw table -->
+        <?php 
+        	include_once("config.php");
+        	
+        	try {
+	        	$conn = new PDO( "mysql:host=$host;dbname=$db", $user, $pwd ,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8';"));
+	        	$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+	        	
+        	
+        	
+        		$sql = "select * from consumertype where merchantID = " . $_SESSION['merchantID'];
+        		$stmt = $conn -> query ($sql);
+        		$res = $stmt -> fetchAll();
+			}			
+        	
+			catch(Exception $e){
+        		die(var_dump($e));
+        	}
+        
+        ?>
+        
         <tbody>
-       		 <!-- sample1 -->
-        	<tr>
-            	<td>
-                	<input name="checkedBox" type="checkbox" value="" />
-                </td>
-                <td>
-                	<a href="#"> 高富帅 </a>
-                </td>
-                <td>
-                	<label >10000</label>
-                </td>
-                <td>
-                	<a href="#"> 100</a>
-                </td>
-                <td>
-                	<a href="#"> VIP 计划</a>
-                </td>
-                <td>
-                	<label>20% </label>
-                </td>
-                <td>
-                 	<img id="pic2" src="/images/off.png"  onclick="picSwitch(this)" />	
-                </td>
-            </tr>
+             <?php 
+             if(isset( $res[0]['typeName']))
+             {
+             	foreach($res as $onerow)
+             	{
+             		?>
+             		<tr id="tr<?=$onerow['idconsumerType']?>">
+             		
+             			<td>
+             				<label name="label" ><?=$onerow['typeName']?></label>
+             			</td>
+             			<td>
+             				<a href="#" >0</a>
+             			</td>
+             		    <td>
+             		    	<a href = "incubator.php?setplan=<?=$onerow['idconsumerType']?> ">
+             		    	<!-- select marketplan name by marketplanId if exsit -->
+             		    		<?php 
+             		    			if(!isset($onerow['marketPlanID']))
+             		    			{
+             		    				echo "无";
+             		    			}
+             		    			else
+             		    			{
+             		    				$sql2 = "select planName from marketplan where idmarketplan=".$onerow['marketPlanID'];
+             		    				$res2 = $conn -> query ($sql2);
+             		    				$planName = $res2 -> fetch();
+             		    				echo $planName['planName'];
+             		    			}
+             		    		
+             		    		
+             		    		?>
+             		    	
+             		    	
+             		    	</a>
+             		    </td>
+             		    <td>
+             		    	
+             		    </td>
+             		    <td>
+                 			<img id="pic2" src="/images/off.png"  onclick="picSwitch(this)" />	              	
+             		    </td>
+             		    
+             		</tr>
+             		
+             		<?php 
+             		
+             	}
+             }
+             
+             ?>    
+  
+       		
             
-            <!-- sample2 -->
-            <tr>
-            	<td>
-                	<input name="checkedBox" type="checkbox" value="" />
-                </td>
-                <td>
-                	<a href="#"> 海淀白领 </a>
-                </td>
-                <td>
-                	<label >50000</label>
-                </td>
-                <td>
-                	<a href="#"> 4330</a>
-                </td>
-                <td nowrap="nowrap">
-                	<input type="submit" value="选择营销计划"  />
-                </td>
-                <td>
-                	<label>40% </label>
-                </td>
-                <td>
-                	<img id="pic1" src="/images/on.png"   onclick="picSwitch(this)" />	
-                </td>
-            </tr>
         </tbody>
         
     </table>
     
-    
+     
+    </article>
+     
+      <script>
+			function hide()
+			{
+				document.getElementById('atsetPlan').style.display = 'none';
+			}
 
+     </script>
+     <?php 
+     	if(isset($_REQUEST['setplan']))
+     	{
+     ?>
+     
+    
+     
+     <article class="module  width_half" id="atsetPlan" >
+     	<header><h3 style="max-width:70%"> 设置营销策略 </h3>
+     	 <a style="float:right; "  href="javascript:hide()" ><img src="images/del.png" /> </a>
+     	 </header>
+         <form action="incubator.class.php" method="post">
+        <fieldset>
+            <input name="idconsumertype" style="display:none" value="<?=$_REQUEST['setplan']?>" />
+        	<select name="stbindPlan" >  
+				<?php 
+					
+					include_once("class/MarketingPlan.php");
+					$conn = new PDO( "mysql:host=$host;dbname=$db", $user, $pwd ,array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8';"));
+					$conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+					
+					$r = new MarketingPlan($conn);
+					
+					$plan =  $r -> getMarketingPlan($_SESSION['merchantID'],"知识小贴士");
+					
+					if( $plan != false )
+					{
+						foreach($plan as $oneplan)
+						{
+							?>
+                            <option value="<?=$oneplan['idmarketplan'] ?>" > <?=$oneplan['planName'] ?></option>
+                            
+                            
+                            <?php
+						}
+					}
+				 ?>            
+             </select>
+             <div class="submit_link">
+					
+					<input type="submit" value="设置" class="alt_btn">
+					
+				</div>
+        </fieldset>
+        </form>
+     </article>
+     <?php }?>
+  
 
 
 </section>
